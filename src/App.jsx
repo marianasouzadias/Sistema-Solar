@@ -1,54 +1,39 @@
-import { useEffect, useState } from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import axios from "axios";
-import Home from "./routes/Home";
-import PlanetDetail from "./PlanetDetail";
+import { Outlet, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import "./App.css";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import PlanetDetail from "./PlanetDetail";
 const App = () => {
-  const [planetList, setPlanetList] = useState([]);
+  const [planetList, setPlanetList] = useState(null);
+  const { planetName } = useParams();
 
   useEffect(() => {
-    const fetchPlanetList = async () => {
+    const getPlanetList = async () => {
       try {
-        const response = await axios.get("/planetData/planetas.json");
-        setPlanetList(response.data.planetas);
+        const response = await axios.get("./planetData/planetas.json");
+        console.log(response.data);
+        setPlanetList(response.data.planet);
       } catch (error) {
         console.error("Erro ao carregar dados dos planetas:", error);
       }
     };
-
-    fetchPlanetList();
+    getPlanetList();
   }, []);
-
-  if (!planetList.length) {
-    return <div>Carregando...</div>;
-  }
-
-  const router = createBrowserRouter([
-    {
-      path: "/Home",
-      element: (
-        <div>
-          <Navbar planetList={planetList} />
-          <Outlet />
-        </div>
-      ),
-      children: [
-        {
-          path: "/",
-          element: <Home planetList={planetList} />,
-        },
-        {
-          path: "/planetas/:nome",
-          element: <PlanetDetail />,
-        },
-      ],
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  console.log(planetList);
+  return (
+    <div className="App">
+      <div className="container">
+        <Navbar planetList={planetList} />
+        <Outlet />
+        {Array.isArray(planetList) && (
+          <PlanetDetail
+            planetList={planetList.filter(
+              (planet) => planet.name === planetName
+            )}
+          />
+        )}
+      </div>
+    </div>
+  );
 };
-
 export default App;

@@ -8,11 +8,15 @@ const Navbar = ({ planetList }) => {
         <Link to={`/`}>Sistema Solar</Link>
       </h2>
       <ul>
-        {planetList.map((planet) => (
-          <li key={planet.nome}>
-            <Link to={`/planetas/${planet.nome}`}>{planet.nome}</Link>
-          </li>
-        ))}
+        <li>
+          <Link to={`/`}>Home</Link>
+        </li>
+        {planetList &&
+          planetList.map((planet) => (
+            <li key={planet.nome}>
+              <Link to={`/planetas/${planet.nome}`}>{planet.nome}</Link>
+            </li>
+          ))}
       </ul>
     </nav>
   );

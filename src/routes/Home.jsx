@@ -1,13 +1,6 @@
-import PropTypes from "prop-types";
-import Navbar from "../components/Navbar";
-
-const Home = ({ planetList }) => {
-  if (!planetList.length) {
-    return <div>Carregando...</div>;
-  }
+const Home = () => {
   return (
     <div>
-      <Navbar planetList={planetList} />
       <h1>Bem vido ao Sistema Solar</h1>
       <p>
         O sistema solar é um sistema planetário localizado na via láctea. Ele é
@@ -27,10 +20,6 @@ const Home = ({ planetList }) => {
       </p>
     </div>
   );
-};
-
-Home.propTypes = {
-  planetList: PropTypes.array.isRequired,
 };
 
 export default Home;

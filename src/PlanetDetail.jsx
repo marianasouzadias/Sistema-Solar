@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-const PlanetDetail = ({ planetList }) => {
-  const { nome } = useParams();
-  const [planet, setPlanet] = useState({});
 
-  useEffect(() => {
-    const planetData = planetList.find((p) => p.nome === nome);
-    setPlanet(planetData || {});
-  }, [nome, planetList]);
+const PlanetDetail = ({ planetList }) => {
+  const { id } = useParams();
+  const planet = planetList.find((planet) => planet.id === id);
+
+  if (!planet) {
+    return <div>Planeta não encontrado</div>;
+  }
 
   return (
     <div>
